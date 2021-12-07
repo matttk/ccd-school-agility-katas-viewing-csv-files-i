@@ -1,12 +1,30 @@
 const VERTICAL_SEPARATOR = "|";
+const HORIZONTAL_SEPARATOR = "-";
+const HORIZONTAL_COLUMN_SEPARATOR = "+";
 
 function displayTable(data) {
+  const tableString = getTableString(data);
+
+  console.log(tableString);
+}
+
+function getTableString(data) {
+  let tableString = "";
+
   if (!data || !data.header || !data.data) {
-    return "";
+    return tableString;
   }
 
   const columnSizes = calculateColumnSizes(data.header, data.data);
-  return "";
+
+  tableString = tableString + getRowString(data.header, columnSizes) + "\n";
+  tableString = tableString + getHeaderSeparator(columnSizes) + "\n";
+
+  data.data.forEach((row) => {
+    tableString = tableString + getRowString(row, columnSizes) + "\n";
+  });
+
+  return tableString;
 }
 
 function calculateColumnSizes(header, data) {
@@ -29,6 +47,17 @@ function getRowString(row, columnSizes) {
   }, "");
 }
 
+function getHeaderSeparator(columnSizes) {
+  let string = "";
+
+  columnSizes.forEach((size) => {
+    string =
+      string + HORIZONTAL_SEPARATOR.repeat(size) + HORIZONTAL_COLUMN_SEPARATOR;
+  });
+
+  return string;
+}
+
 function calculateMaxColumnLength(columns) {
   return columns.reduce((max, column) => {
     return Math.max(max, column.length);
@@ -47,6 +76,7 @@ export {
   calculateColumnSizes,
   calculateMaxColumnLength,
   displayTable,
+  getTableString,
   getRowString,
   getPaddedString,
 };

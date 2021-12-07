@@ -1,9 +1,9 @@
 import {
   calculateColumnSizes,
   calculateMaxColumnLength,
-  displayTable,
   getRowString,
   getPaddedString,
+  getTableString,
 } from "./table.js";
 
 const DUMMY_DATA = {
@@ -14,10 +14,10 @@ const DUMMY_DATA = {
   ],
 };
 
-describe("displayTable", () => {
+describe("getTableString", () => {
   describe("empty object", () => {
     it("outputs empty string", () => {
-      const table = displayTable({});
+      const table = getTableString({});
       expect(table).toBe("");
     });
   });

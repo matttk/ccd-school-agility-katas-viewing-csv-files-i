@@ -44,7 +44,8 @@ function splitStringByNewlines(string) {
 }
 
 function parseLine(line) {
-  return line.split(";");
+  const lineWithoutCarriageReturn = line.replace("\r", "");
+  return lineWithoutCarriageReturn.split(";");
 }
 
 export {
