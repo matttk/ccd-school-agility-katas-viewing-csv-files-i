@@ -4,7 +4,7 @@ function readFile(filename) {
   try {
     return fs.readFileSync(filename, "utf8");
   } catch (err) {
-    console.error(err);
+    console.error(`Unable to read file ${filename}`);
   }
 
   return null;
@@ -12,6 +12,11 @@ function readFile(filename) {
 
 function parseCsvFile(filename) {
   const fileData = readFile(filename);
+
+  if (!fileData) {
+    return null;
+  }
+
   const data = parseFileData(fileData);
 
   return data;

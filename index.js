@@ -1,9 +1,23 @@
 import { parseCsvFile } from "./csv-reader/csv-reader.js";
 
-function getFilename() {
-  return "./persons.csv";
+function getFilePath() {
+  const args = process.argv.slice(2);
+  const filename = args[0];
+
+  if (!filename) {
+    console.error("Missing filename.");
+    return null;
+  }
+
+  return `./${filename}`;
 }
 
-const filename = getFilename();
-const data = parseCsvFile(filename);
-console.log(data);
+const filename = getFilePath();
+
+if (filename) {
+  const data = parseCsvFile(filename);
+
+  if (data) {
+    console.log(data);
+  }
+}
