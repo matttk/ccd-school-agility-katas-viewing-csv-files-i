@@ -1,4 +1,11 @@
+const VERTICAL_SEPARATOR = "|";
+
 function displayTable(data) {
+  if (!data || !data.header || !data.data) {
+    return "";
+  }
+
+  const columnSizes = calculateColumnSizes(data.header, data.data);
   return "";
 }
 
@@ -14,10 +21,32 @@ function calculateColumnSizes(header, data) {
   }, []);
 }
 
+function getRowString(row, columnSizes) {
+  return row.reduce((string, cell, index) => {
+    return (
+      string + getPaddedString(cell, columnSizes[index]) + VERTICAL_SEPARATOR
+    );
+  }, "");
+}
+
 function calculateMaxColumnLength(columns) {
   return columns.reduce((max, column) => {
     return Math.max(max, column.length);
   }, 0);
 }
 
-export { calculateColumnSizes, calculateMaxColumnLength, displayTable };
+function getPaddedString(string, maxSize) {
+  const paddingNeeded = maxSize - string.length;
+  const padding = paddingNeeded > 0 ? " ".repeat(paddingNeeded) : "";
+  const paddedString = string + padding;
+
+  return paddedString;
+}
+
+export {
+  calculateColumnSizes,
+  calculateMaxColumnLength,
+  displayTable,
+  getRowString,
+  getPaddedString,
+};
