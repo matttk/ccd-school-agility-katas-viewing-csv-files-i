@@ -3,8 +3,9 @@ import { init as initMenu } from "./menu/menu.js";
 import { displayTable } from "./table/table.js";
 import { calculateLastPage, sliceData } from "./utils/utils.js";
 
+const DEFAULT_ROWS_PER_PAGE = 3;
+
 let currentPage = 0;
-let rowsPerPage = 3;
 
 function getFilePath() {
   const args = process.argv.slice(2);
@@ -18,39 +19,53 @@ function getFilePath() {
   return `./${filename}`;
 }
 
-function displayFirstPage(data) {
-  currentPage = 0;
-  displaySelectedData(data);
+function getRowsPerPage() {
+  const args = process.argv.slice(2);
+
+  if (args.length > 1) {
+    const userRowsPerPage = parseInt(args[1], 10);
+
+    if (userRowsPerPage > 0) {
+      return userRowsPerPage;
+    }
+  }
+
+  return DEFAULT_ROWS_PER_PAGE;
 }
 
-function displayPreviousPage(data) {
+function displayFirstPage(data, rowsPerPage) {
+  currentPage = 0;
+  displaySelectedData(data, rowsPerPage);
+}
+
+function displayPreviousPage(data, rowsPerPage) {
   if (currentPage > 0) {
     currentPage--;
   }
 
-  displaySelectedData(data);
+  displaySelectedData(data, rowsPerPage);
 }
 
-function displayNextPage(data) {
+function displayNextPage(data, rowsPerPage) {
   const lastPage = calculateLastPage(data.data, rowsPerPage);
 
   if (currentPage < lastPage) {
     currentPage++;
   }
 
-  displaySelectedData(data);
+  displaySelectedData(data, rowsPerPage);
 }
 
-function displayLastPage(data) {
+function displayLastPage(data, rowsPerPage) {
   currentPage = calculateLastPage(data.data, rowsPerPage);
-  displaySelectedData(data);
+  displaySelectedData(data, rowsPerPage);
 }
 
 function onExit() {
   console.log("See ya!");
 }
 
-function displaySelectedData(data) {
+function displaySelectedData(data, rowsPerPage) {
   const selectedData = sliceData(data, currentPage * rowsPerPage, rowsPerPage);
   displayTable(selectedData);
 }
@@ -62,13 +77,15 @@ async function main() {
     const data = parseCsvFile(filename);
 
     if (data) {
-      displayFirstPage(data);
+      const rowsPerPage = getRowsPerPage();
 
-      initMenu(
-        () => displayFirstPage(data),
-        () => displayPreviousPage(data),
-        () => displayNextPage(data),
-        () => displayLastPage(data),
+      displayFirstPage(data, rowsPerPage);
+
+      await initMenu(
+        () => displayFirstPage(data, rowsPerPage),
+        () => displayPreviousPage(data, rowsPerPage),
+        () => displayNextPage(data, rowsPerPage),
+        () => displayLastPage(data, rowsPerPage),
         onExit
       );
     }

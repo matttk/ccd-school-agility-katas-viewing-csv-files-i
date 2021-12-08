@@ -1,9 +1,6 @@
 import { createInterface } from "readline";
 
-const readline = createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+let readline;
 
 async function init(
   onFirstPage,
@@ -12,6 +9,11 @@ async function init(
   onLastPage,
   onExit
 ) {
+  readline = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
   let finished = false;
 
   while (!finished) {
