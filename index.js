@@ -14,6 +14,22 @@ function getFilePath() {
   return `./${filename}`;
 }
 
+function displayFirstPage(data) {
+  displayTable(data);
+}
+
+function displayPreviousPage(data) {
+  displayTable(data);
+}
+
+function displayNextPage(data) {
+  displayTable(data);
+}
+
+function displayLastPage(data) {
+  displayTable(data);
+}
+
 function onExit() {
   console.log("See ya!");
 }
@@ -28,10 +44,10 @@ async function main() {
       displayTable(data);
 
       initMenu(
-        () => displayTable(data),
-        () => displayTable(data),
-        () => displayTable(data),
-        () => displayTable(data),
+        () => displayFirstPage(data),
+        () => displayPreviousPage(data),
+        () => displayNextPage(data),
+        () => displayLastPage(data),
         onExit
       );
     }
