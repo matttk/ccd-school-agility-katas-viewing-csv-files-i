@@ -15,14 +15,14 @@ describe("readFile", () => {
 describe("splitStringByNewlines", () => {
   it("returns array of length 3 for hello\\nworld\\n!", () => {
     const array = splitStringByNewlines("hello\nworld\n!");
-    expect(array.length).toBe(3);
+    expect(array).toHaveLength(3);
   });
 });
 
 describe("parseLine", () => {
   it("a;b;c returns array of length 3", () => {
     const array = parseLine("a;b;c");
-    expect(array.length).toBe(3);
+    expect(array).toHaveLength(3);
   });
 });
 
@@ -48,11 +48,11 @@ describe("parseFileData", () => {
       );
 
       expect(Array.isArray(data.header)).toBe(true);
-      expect(data.header.length).toBe(3);
+      expect(data.header).toHaveLength(3);
       expect(Array.isArray(data.data)).toBe(true);
-      expect(data.data.length).toBe(2);
-      expect(data.data[0].length).toBe(3);
-      expect(data.data[1].length).toBe(3);
+      expect(data.data).toHaveLength(2);
+      expect(data.data[0]).toHaveLength(3);
+      expect(data.data[1]).toHaveLength(3);
       expect(data).toStrictEqual({
         header: ["Name", "Age", "City"],
         data: [

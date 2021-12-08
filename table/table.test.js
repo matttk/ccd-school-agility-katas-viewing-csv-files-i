@@ -48,7 +48,7 @@ describe("calculateColumnSizes", () => {
   it("gets correct column sizes", () => {
     const sizes = calculateColumnSizes(DUMMY_DATA.header, DUMMY_DATA.data);
 
-    expect(sizes.length).toBe(3);
+    expect(sizes).toHaveLength(3);
     expect(sizes[0]).toBe(5);
     expect(sizes[1]).toBe(3);
     expect(sizes[2]).toBe(8);
@@ -58,7 +58,7 @@ describe("calculateColumnSizes", () => {
 describe("getPaddedString", () => {
   it("adds 3 spaces to dog, when maxSize === 6", () => {
     const paddedString = getPaddedString("dog", 6);
-    expect(paddedString.length).toBe(6);
+    expect(paddedString).toHaveLength(6);
   });
 });
 
