@@ -19,29 +19,40 @@ function getFilePath() {
 }
 
 function displayFirstPage(data) {
-  const selectedData = sliceData(data, 0, rowsPerPage);
-  displayTable(selectedData);
+  currentPage = 0;
+  displaySelectedData(data);
 }
 
 function displayPreviousPage(data) {
-  const selectedData = sliceData(data, 0, rowsPerPage);
-  displayTable(selectedData);
+  if (currentPage > 0) {
+    currentPage--;
+  }
+
+  displaySelectedData(data);
 }
 
 function displayNextPage(data) {
-  const selectedData = sliceData(data, 0, rowsPerPage);
-  displayTable(selectedData);
+  const lastPage = calculateLastPage(data.data, rowsPerPage);
+
+  if (currentPage < lastPage) {
+    currentPage++;
+  }
+
+  displaySelectedData(data);
 }
 
 function displayLastPage(data) {
-  const lastPage = calculateLastPage(data.data, rowsPerPage);
-  const selectedData = sliceData(data, lastPage * rowsPerPage, rowsPerPage);
-
-  displayTable(selectedData);
+  currentPage = calculateLastPage(data.data, rowsPerPage);
+  displaySelectedData(data);
 }
 
 function onExit() {
   console.log("See ya!");
+}
+
+function displaySelectedData(data) {
+  const selectedData = sliceData(data, currentPage * rowsPerPage, rowsPerPage);
+  displayTable(selectedData);
 }
 
 async function main() {
