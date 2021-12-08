@@ -18,20 +18,24 @@ function onExit() {
   console.log("See ya!");
 }
 
-const filename = getFilePath();
+async function main() {
+  const filename = getFilePath();
 
-if (filename) {
-  const data = parseCsvFile(filename);
+  if (filename) {
+    const data = parseCsvFile(filename);
 
-  if (data) {
-    displayTable(data);
+    if (data) {
+      displayTable(data);
 
-    initMenu(
-      () => displayTable(data),
-      () => displayTable(data),
-      () => displayTable(data),
-      () => displayTable(data),
-      onExit
-    );
+      initMenu(
+        () => displayTable(data),
+        () => displayTable(data),
+        () => displayTable(data),
+        () => displayTable(data),
+        onExit
+      );
+    }
   }
 }
+
+main();
