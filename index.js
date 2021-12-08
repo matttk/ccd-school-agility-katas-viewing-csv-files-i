@@ -1,6 +1,10 @@
 import { parseCsvFile } from "./csv-reader/csv-reader.js";
-import { displayTable } from "./table/table.js";
 import { init as initMenu } from "./menu/menu.js";
+import { displayTable } from "./table/table.js";
+import { calculateLastPage, sliceData } from "./utils/utils.js";
+
+let currentPage = 0;
+let rowsPerPage = 3;
 
 function getFilePath() {
   const args = process.argv.slice(2);
@@ -15,19 +19,25 @@ function getFilePath() {
 }
 
 function displayFirstPage(data) {
-  displayTable(data);
+  const selectedData = sliceData(data, 0, rowsPerPage);
+  displayTable(selectedData);
 }
 
 function displayPreviousPage(data) {
-  displayTable(data);
+  const selectedData = sliceData(data, 0, rowsPerPage);
+  displayTable(selectedData);
 }
 
 function displayNextPage(data) {
-  displayTable(data);
+  const selectedData = sliceData(data, 0, rowsPerPage);
+  displayTable(selectedData);
 }
 
 function displayLastPage(data) {
-  displayTable(data);
+  const lastPage = calculateLastPage(data.data, rowsPerPage);
+  const selectedData = sliceData(data, lastPage * rowsPerPage, rowsPerPage);
+
+  displayTable(selectedData);
 }
 
 function onExit() {
@@ -41,7 +51,7 @@ async function main() {
     const data = parseCsvFile(filename);
 
     if (data) {
-      displayTable(data);
+      displayFirstPage(data);
 
       initMenu(
         () => displayFirstPage(data),
